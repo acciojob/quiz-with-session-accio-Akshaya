@@ -1,5 +1,5 @@
 //your JS code here.
-
+document.addEventListener("DOMContentLoaded",function(){
 // Do not change code below this line
 // This code will just display the questions to the screen
 const questions = [
@@ -31,26 +31,48 @@ const questions = [
 ];
 
 // Display the quiz questions and choices
-function renderQuestions() {
-  for (let i = 0; i < questions.length; i++) {
-    const question = questions[i];
-    const questionElement = document.createElement("div");
-    const questionText = document.createTextNode(question.question);
-    questionElement.appendChild(questionText);
-    for (let j = 0; j < question.choices.length; j++) {
-      const choice = question.choices[j];
-      const choiceElement = document.createElement("input");
-      choiceElement.setAttribute("type", "radio");
-      choiceElement.setAttribute("name", `question-${i}`);
-      choiceElement.setAttribute("value", choice);
-      if (userAnswers[i] === choice) {
-        choiceElement.setAttribute("checked", true);
-      }
-      const choiceText = document.createTextNode(choice);
-      questionElement.appendChild(choiceElement);
-      questionElement.appendChild(choiceText);
+const quizContainer = document.getElementById("question");
+const submitBuuton = document.getElementById("submit");
+const scoreDisplay = document.getElementById("score");
+
+	const savedProgress = JOSN.parse(sessionStorage.getItem("progress")) || {};
+	function renderQuiz(){
+		quizContainer.innerHTML ="";
+		questions.forEach((q,index)=>{
+			const questionDiv = document.createElement("div");
+			questionDiv.innerHTML  = `<p>${index+1}.${q.question}</p>`;
+
+			q.option.forEach(option=>{
+				const label = document.createElement("label");
+				label.innerHTML = `<input type="radio" name="q${index}" value="${option}" ${savedProgress[`q${index}`] === option ? "checked" : ""}>
+                    ${option}
+                `;
+				questionDiv.appendChild(label);
+			});
+			quizContainer.appendChild(questionDiv);
+		});
+	}
+	renderQuiz();
+
+	quizContainer.addEventListener("change",function(event){
+		if(event.target.type === "radio"){
+			savedProgress[event.target.name] = event.target.value;
+			sessionStorage.setItem("progress",JSON.stringify(savedProgress));
+		}
+	});
+	submitBuuton.addEventListener("click",function(){
+		let score = 0;
+
+		questions.forEach((q.index)=>{
+			if(savedProgress[`q${index}`]===q.answer){
+				score++;
+			}
+		});
+	localStorage.setItem("score",score);
+	scoreDisplay.textContent = `Your score is ${score} out of 5.`;
+	});
+const lastScore = localStorage.getItem("score");
+    if (lastScore !== null) {
+        scoreDisplay.textContent = `Your last score was ${lastScore} out of 5.`;
     }
-    questionsElement.appendChild(questionElement);
-  }
-}
-renderQuestions();
+});
