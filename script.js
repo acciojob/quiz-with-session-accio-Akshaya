@@ -40,7 +40,7 @@ const questions = [
     const scoreDisplay = document.getElementById("score");
 
     // Load stored progress
-    const storedProgress = JSON.parse(sessionStorage.getItem("progress")) || {};
+    let storedProgress = JSON.parse(sessionStorage.getItem("progress")) || {};
 
     questions.forEach((q, index) => {
         const questionDiv = document.createElement("div");
@@ -56,18 +56,20 @@ const questions = [
             // Restore saved answer
             if (storedProgress[index] === option) {
                 radio.checked = true;
+                console.log(`Restored selection for question ${index}: ${option}`);
             }
 
             radio.addEventListener("change", () => {
                 storedProgress[index] = option;
                 sessionStorage.setItem("progress", JSON.stringify(storedProgress));
-                console.log("Session Storage Updated:", sessionStorage.getItem("progress"));
+                console.log("Updated Session Storage:", sessionStorage.getItem("progress"));
             });
 
             label.appendChild(radio);
             label.appendChild(document.createTextNode(option));
             questionDiv.appendChild(label);
         });
+
         questionsContainer.appendChild(questionDiv);
     });
 
@@ -83,11 +85,14 @@ const questions = [
                 score++;
             }
         });
-        
+
         scoreDisplay.textContent = `Your score is ${score} out of 5.`;
         localStorage.setItem("score", score);
         console.log("Score Saved to Local Storage:", localStorage.getItem("score"));
     });
+
+    // Debugging: Show session storage on page load
+    console.log("Session Storage on Load:", sessionStorage.getItem("progress"));
 });
 
 
