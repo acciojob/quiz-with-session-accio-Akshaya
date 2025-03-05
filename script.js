@@ -55,8 +55,7 @@ const questions = [
             
             // Restore saved answer
             if (storedProgress[index] === option) {
-                radio.checked = true;
-                radio.setAttribute("checked", ""); // Ensure Cypress detects it
+                radio.click(); // Simulates a real user click
                 console.log(`Restored selection for question ${index}: ${option} (${radio.checked})`);
             }
 
