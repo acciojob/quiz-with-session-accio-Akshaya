@@ -1,5 +1,5 @@
 //your JS code here.
-document.addEventListener("DOMContentLoaded",function(){
+document.addEventListener("DOMContentLoaded",()=>{
 // Do not change code below this line
 // This code will just display the questions to the screen
 const questions = [
@@ -35,29 +35,30 @@ const questions = [
         return;
     }
 
-// Display the quiz questions and choices
-const questionsContainer = document.getElementById("questions");
-const submitButton = document.getElementById("submit");
-const scoreDisplay = document.getElementById("score");
+    const questionsContainer = document.getElementById("questions");
+    const submitButton = document.getElementById("submit");
+    const scoreDisplay = document.getElementById("score");
 
-	const storedProgress = JSON.parse(sessionStorage.getItem("progress")) || {};
+    // Load stored progress
+    const storedProgress = JSON.parse(sessionStorage.getItem("progress")) || {};
 
-         questions.forEach((q, index) => {
-          const questionDiv = document.createElement("div");
-          questionDiv.innerHTML = `<p>${q.question}</p>`;
+    questions.forEach((q, index) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.innerHTML = `<p>${q.question}</p>`;
 
-        q.options.forEach(option => {
+        q.choices.forEach(option => {
             const label = document.createElement("label");
             const radio = document.createElement("input");
             radio.type = "radio";
             radio.name = `question${index}`;
             radio.value = option;
-
-			if (storedProgress[index] === option) {
+            
+            // Restore saved answer
+            if (storedProgress[index] === option) {
                 radio.checked = true;
             }
 
-			radio.addEventListener("change", () => {
+            radio.addEventListener("change", () => {
                 storedProgress[index] = option;
                 sessionStorage.setItem("progress", JSON.stringify(storedProgress));
             });
@@ -66,8 +67,7 @@ const scoreDisplay = document.getElementById("score");
             label.appendChild(document.createTextNode(option));
             questionDiv.appendChild(label);
         });
-
-			 questionsContainer.appendChild(questionDiv);
+        questionsContainer.appendChild(questionDiv);
     });
 
     // Load stored score
@@ -82,10 +82,11 @@ const scoreDisplay = document.getElementById("score");
                 score++;
             }
         });
-
-		scoreDisplay.textContent = `Your score is ${score} out of 5.`;
+        
+        scoreDisplay.textContent = `Your score is ${score} out of 5.`;
         localStorage.setItem("score", score);
     });
 });
+
 
 	
