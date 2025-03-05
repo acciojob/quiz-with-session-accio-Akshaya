@@ -30,14 +30,21 @@ const questions = [
   },
 ];
 
+	if (!Array.isArray(questions) || questions.length === 0) {
+        console.error("Questions array is not loaded correctly.");
+        return;
+    }
+
 // Display the quiz questions and choices
 const questionsContainer = document.getElementById("questions");
 const submitButton = document.getElementById("submit");
 const scoreDisplay = document.getElementById("score");
 
-	questions.forEach((q, index) => {
-        const questionDiv = document.createElement("div");
-        questionDiv.innerHTML = `<p>${q.question}</p>`;
+	const storedProgress = JSON.parse(sessionStorage.getItem("progress")) || {};
+
+         questions.forEach((q, index) => {
+          const questionDiv = document.createElement("div");
+          questionDiv.innerHTML = `<p>${q.question}</p>`;
 
         q.options.forEach(option => {
             const label = document.createElement("label");
@@ -45,13 +52,12 @@ const scoreDisplay = document.getElementById("score");
             radio.type = "radio";
             radio.name = `question${index}`;
             radio.value = option;
-            
-            // Restore saved answer
-            if (storedProgress[index] === option) {
+
+			if (storedProgress[index] === option) {
                 radio.checked = true;
             }
 
-            radio.addEventListener("change", () => {
+			radio.addEventListener("change", () => {
                 storedProgress[index] = option;
                 sessionStorage.setItem("progress", JSON.stringify(storedProgress));
             });
@@ -60,7 +66,8 @@ const scoreDisplay = document.getElementById("score");
             label.appendChild(document.createTextNode(option));
             questionDiv.appendChild(label);
         });
-        questionsContainer.appendChild(questionDiv);
+
+			 questionsContainer.appendChild(questionDiv);
     });
 
     // Load stored score
@@ -75,8 +82,10 @@ const scoreDisplay = document.getElementById("score");
                 score++;
             }
         });
-        
-        scoreDisplay.textContent = `Your score is ${score} out of 5.`;
+
+		scoreDisplay.textContent = `Your score is ${score} out of 5.`;
         localStorage.setItem("score", score);
     });
 });
+
+	
