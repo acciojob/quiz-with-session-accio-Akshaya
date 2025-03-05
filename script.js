@@ -61,6 +61,7 @@ const questions = [
             radio.addEventListener("change", () => {
                 storedProgress[index] = option;
                 sessionStorage.setItem("progress", JSON.stringify(storedProgress));
+                console.log("Session Storage Updated:", sessionStorage.getItem("progress"));
             });
 
             label.appendChild(radio);
@@ -85,8 +86,10 @@ const questions = [
         
         scoreDisplay.textContent = `Your score is ${score} out of 5.`;
         localStorage.setItem("score", score);
+        console.log("Score Saved to Local Storage:", localStorage.getItem("score"));
     });
 });
+
 
 
 	
