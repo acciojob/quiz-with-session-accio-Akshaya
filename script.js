@@ -56,7 +56,8 @@ const questions = [
             // Restore saved answer
             if (storedProgress[index] === option) {
                 radio.checked = true;
-                console.log(`Restored selection for question ${index}: ${option}`);
+                radio.setAttribute("checked", ""); // Ensure Cypress detects it
+                console.log(`Restored selection for question ${index}: ${option} (${radio.checked})`);
             }
 
             radio.addEventListener("change", () => {
@@ -94,6 +95,7 @@ const questions = [
     // Debugging: Show session storage on page load
     console.log("Session Storage on Load:", sessionStorage.getItem("progress"));
 });
+
 
 
 
