@@ -1,4 +1,4 @@
-//your JS code here.
+  //your JS code here.
 document.addEventListener("DOMContentLoaded",()=>{
 // Do not change code below this line
 // This code will just display the questions to the screen
@@ -55,9 +55,9 @@ const questions = [
             
             // Restore saved answer
             if (storedProgress[index] === option) {
-                radio.checked = true; 
-                console.log(`Restored selection for question ${index}: ${option} (${radio.checked})`);
-            }
+            radio.setAttribute('checked', ''); // add the 'checked' attribute to the HTML element
+            console.log(`Restored selection for question ${index}: ${option} (${radio.checked})`);
+}
 
             radio.addEventListener("change", () => {
                 storedProgress[index] = option;
