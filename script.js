@@ -55,7 +55,7 @@ const questions = [
             
             // Restore saved answer
             if (storedProgress[index] === option) {
-                radio.click(); // Simulates a real user click
+                radio.checked = true; // Simulates a real user click
                 console.log(`Restored selection for question ${index}: ${option} (${radio.checked})`);
             }
 
@@ -81,9 +81,12 @@ const questions = [
     submitButton.addEventListener("click", () => {
         let score = 0;
         questions.forEach((q, index) => {
-            if (storedProgress[index] === q.answer) {
-                score++;
-            }
+    const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+    if (selectedOption) {
+        storedProgress[index] = selectedOption.value;
+    }
+});
+         sessionStorage.setItem("progress", JSON.stringify(storedProgress));
         });
 
         scoreDisplay.textContent = `Your score is ${score} out of 5.`;
