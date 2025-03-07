@@ -55,7 +55,7 @@ const questions = [
             
             // Restore saved answer
             if (storedProgress[index] === option) {
-                radio.checked = true; // Simulates a real user click
+                radio.checked = true; 
                 console.log(`Restored selection for question ${index}: ${option} (${radio.checked})`);
             }
 
@@ -79,20 +79,27 @@ const questions = [
     }
 
     submitButton.addEventListener("click", () => {
-        let score = 0;
-        questions.forEach((q, index) => {
-    const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
-    if (selectedOption) {
-        storedProgress[index] = selectedOption.value;
-    }
-});
-         sessionStorage.setItem("progress", JSON.stringify(storedProgress));
-        });
-
-        scoreDisplay.textContent = `Your score is ${score} out of 5.`;
-        localStorage.setItem("score", score);
-        console.log("Score Saved to Local Storage:", localStorage.getItem("score"));
+    // Update storedProgress with the currently selected options
+    questions.forEach((q, index) => {
+        const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+        if (selectedOption) {
+            storedProgress[index] = selectedOption.value;
+        }
     });
+    sessionStorage.setItem("progress", JSON.stringify(storedProgress));
+
+    // Now calculate the score
+    let score = 0;
+    questions.forEach((q, index) => {
+        if (storedProgress[index] === q.answer) {
+            score++;
+        }
+    });
+
+    scoreDisplay.textContent = `Your score is ${score} out of 5.`;
+    localStorage.setItem("score", score);
+    console.log("Score Saved to Local Storage:", localStorage.getItem("score"));
+});
 
     // Debugging: Show session storage on page load
     console.log("Session Storage on Load:", sessionStorage.getItem("progress"));
