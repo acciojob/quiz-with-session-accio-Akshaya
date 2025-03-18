@@ -1,3 +1,7 @@
+//your JS code here.
+
+// Do not change code below this line
+// This code will just display the questions to the screen
 const questions = [
   {
     question: "What is the capital of France?",
@@ -32,6 +36,7 @@ function saveProgress(questionIndex,selectedValue){
 	sessionStorage.setItem("progress",JSON.stringify(progress));
 }
 
+// Display the quiz questions and choices
 function renderQuestions() {
     const questionDiv = document.querySelector("#questions");
     questionDiv.innerHTML = ""; // Clear previous content
@@ -43,7 +48,7 @@ function renderQuestions() {
         const questionElement = document.createElement("div");
         questionElement.innerHTML = <p>${question.question}</p>;
 
-		for (let j = 0; j < question.choices.length; j++) {
+        for (let j = 0; j < question.choices.length; j++) {
             const choice = questions[i].choices[j];
 
             const choiceElement = document.createElement("input");
@@ -51,7 +56,8 @@ function renderQuestions() {
             choiceElement.setAttribute("name", question-${i});
             choiceElement.setAttribute("value", choice);
 
-			      if (progress[i] === choice) {
+			
+			if (progress[i] === choice) {
 			    choiceElement.setAttribute("checked", "true");
 			}
 			
@@ -63,7 +69,7 @@ function renderQuestions() {
             choiceLabel.appendChild(choiceElement);
             choiceLabel.appendChild(document.createTextNode(choice));
 
-			questionElement.appendChild(choiceLabel);
+            questionElement.appendChild(choiceLabel);
             questionElement.appendChild(document.createElement("br"));
         }
 
@@ -80,7 +86,6 @@ function calculateScore(){
       score++;
     }
   });
-
 	localStorage.setItem("score",score);
 	document.getElementById("score").innerHTML=<span>Your score is ${score} out of 5.</span>;
 	sessionStorage.removeItem("progress");
